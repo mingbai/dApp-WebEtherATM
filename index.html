@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Weocome Page</title>
+
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+	<!-- <script type="text/javascript" src="./node_modules/web3/dist/web3.min.js"></script> -->
+</head>
+<body>
+	<h1 align="center">Welcome To Ether ATM</h1>
+	<div align="center">
+		<img src="./imgs/blue.JPG">
+	</div>
+
+	<form method="get"">
+		<div><font size="6" face="Times">
+			<input type="radio" name="user" id="requester" ></input>
+			<label>Requester</label>
+			
+			<p style="text-indent: 5em;"></p>
+
+			<input type="radio" name="user" id="giver"  ></input>
+			<label>Giver</label>
+			
+		</div>
+
+		<div>
+			<input type="button" name="submit" value="submit" onclick="submitStatus()">
+		</div>
+	</form>
+	
+
+	<script type="text/javascript">
+		var requester = document.getElementById("requester");
+		var giver = document.getElementById("giver");
+		function submitStatus() {
+			if (requester.checked) {
+				window.location.href = "requester.html";
+			} else if (giver.checked) {
+				window.location.href = "giver.html";
+			}
+		}
+	</script>
+
+</body>
+</html>

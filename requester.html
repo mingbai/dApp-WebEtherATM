@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>requester dashboard</title>
+
+	<link rel="stylesheet" type="text/css" href="mystyle.css">
+	<script type="text/javascript" src="./scripts/js-scripts.js"></script>
+	<script type="text/javascript" src="./node_modules/web3/dist/web3.min.js"></script>
+	
+</head>
+
+<body onload="displayAccountInfo()">
+<!-- <body> -->
+	<div align="center">
+		<h2>Welcome to use our EtherATM!</h2>
+	</div>
+	
+	<!-- Ether image -->
+	<div align="center">
+		<img src="./imgs/blue.JPG">
+	</div>
+
+	<!-- list all the ethereum accounts and balance -->
+	<fieldset>
+		<div align="center">
+			<h4 align="center">Account: </h4>
+			<h5 id="account"></h5>
+
+			<h4 align="center">Balance: </h4>
+			<h5 id="balance"></h5>
+		</div>
+		
+	</fieldset> <br>
+
+	<!-- making cash request -->
+	<fieldset>
+		<h4 align="center">Fill the form below to request cash: 
+			<script type="text/javascript">
+			</script>
+		</h4>
+		<form id="request_form">
+			<div align="center">
+				<label>UserName: </label>
+				<input type="text" name="name" id="user" placeholder="user name">
+			</div>
+			<br>
+
+			<div align="center">
+				<label>USD: </label>
+				<input class="form-control" type="text" name="name" id="usd" placeholder="USD" onkeydown="usdToEtherConverter()">
+				<!-- <label class="error fade">You don't have enough balance!</label> -->
+			</div>
+			<br>
+
+			<div align="center">
+				<a type="text" name="name" id="msg“>
+			</div>
+			<br>
+
+			<div align="center">
+				<label>ETH: </label>
+				<input type="text" name="name" id="eth" placeholder="ETH" readonly onkeyup="usdToEtherConverter()">
+			</div>
+			<br>
+
+			<div align="center">
+				<input type="button" name="name" id="request" value="Send Request" onclick="createRequest()">	
+			</div>
+		</form>
+
+		<div align="center">
+			<h5 id="reqs"></h5>
+		</div>	
+	</fieldset><br>
+
+<!-- 	<fieldset>
+		<div align="center">
+			<h4 align="center">Requester Info: </h4>
+			<h5 id="req_info"></h5>
+		</div>
+		
+	</fieldset> <br> -->
+
+	<fieldset>
+		
+		
+	</fieldset> <br>
+
+	<!-- message from giver -->
+	<fieldset>
+		<div align="center">
+			<h4>Your request is accepted by: </h4>
+			<h5 id="accepter"></h5>
+		</div>
+		
+	</fieldset><br>
+
+		<!-- list all the ethereum accounts and balance -->
+	<fieldset>
+		<div align="center">
+			<label>Pay To: </label>
+			<input type="text" name="payment" id="pay_to">
+			<input type="button" name="button" id="payment" value="Send">
+			<h6 id="response"></h6>
+		</div>
+		
+	</fieldset>	
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script type="text/javascript">
+		// if (typeof web3 !== 'undefined') {
+		// 	web3 = new Web3(web3.currentProvider);
+		// 	// console.log("Metamask detected");
+		// } else {
+		// 	// console.log("Metamask not detected");
+		// 	web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+		// }
+	</script>
+</body>
+</html>
