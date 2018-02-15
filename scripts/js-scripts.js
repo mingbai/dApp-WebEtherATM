@@ -1,11 +1,10 @@
 
 /**
 Part 1:
-This field includes functions used by both requester.html and giver.html
-And define all global variables
+Functions and global variables used by both requester.html and giver.html
 **/
 
-// /*Set up web3 provider*/
+/*Set up web3 provider*/
 if (typeof web3 !== 'undefined') {
 	web3 = new Web3(web3.currentProvider);
 	// console.log("Metamask detected");
@@ -21,7 +20,7 @@ if (typeof web3 !== 'undefined') {
 // 	console.log("nothing");
 // }
 
-var accounts = web3.eth.accounts;
+// var accounts = web3.eth.accounts;
 web3.eth.defaultAccount = web3.eth.accounts[0];
 
 
@@ -51,21 +50,7 @@ var contractABI = [
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "state",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "owner",
+		"name": "requester",
 		"outputs": [
 			{
 				"name": "",
@@ -79,12 +64,22 @@ var contractABI = [
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "getRequester",
+		"name": "r_user_name",
 		"outputs": [
 			{
 				"name": "",
 				"type": "string"
-			},
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "giver",
+		"outputs": [
 			{
 				"name": "",
 				"type": "address"
@@ -98,24 +93,14 @@ var contractABI = [
 		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": true,
-				"name": "g_account",
+				"indexed": false,
+				"name": "giver",
 				"type": "address"
 			},
 			{
 				"indexed": false,
-				"name": "g_accepted_at",
-				"type": "uint256"
-			},
-			{
-				"indexed": true,
-				"name": "requested_by",
+				"name": "requester",
 				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "r_eth_amount",
-				"type": "uint256"
 			}
 		],
 		"name": "RequestAccepted",
@@ -131,22 +116,12 @@ var contractABI = [
 			},
 			{
 				"indexed": false,
-				"name": "r_by",
-				"type": "address"
-			},
-			{
-				"indexed": false,
 				"name": "r_usd",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
-				"name": "r_eth",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "r_created_at",
+				"name": "r_wei",
 				"type": "uint256"
 			}
 		],
@@ -154,39 +129,18 @@ var contractABI = [
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"name": "r_name",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"name": "r_account",
-				"type": "address"
-			}
-		],
-		"name": "RequesterInfo",
-		"type": "event"
+		"constant": false,
+		"inputs": [],
+		"name": "acceptRequest",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"constant": false,
-		"inputs": [
-			{
-				"name": "r_account",
-				"type": "address"
-			},
-			{
-				"name": "accepted_at",
-				"type": "uint256"
-			},
-			{
-				"name": "r_eth_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "acceptRequest",
+		"inputs": [],
+		"name": "confirmReceived",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -204,11 +158,7 @@ var contractABI = [
 				"type": "uint256"
 			},
 			{
-				"name": "_eth",
-				"type": "uint256"
-			},
-			{
-				"name": "_created_at",
+				"name": "_wei",
 				"type": "uint256"
 			}
 		],
@@ -226,7 +176,7 @@ var contractABI = [
 				"type": "string"
 			}
 		],
-		"name": "newRequester",
+		"name": "setUserName",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -240,85 +190,70 @@ var contractABI = [
 	}
 ];
 var EtherATMContract = web3.eth.contract(contractABI);
-var contractAddress = '0x63ed4d94622b10186d9d3f0686be208b7456e109';
+var contractAddress = '0x1e747df75ee456625e9d5670abe0f1cad91cbec1';
 var EtherATMInstance = EtherATMContract.at(contractAddress);
 
+/**
+Part 2:
+All functions and variables used only for requester.html
+**/
 
-// /**
-// Part 2:
-// All functions and variables used only for requester are defined in this part
-// **/
+/* Watching the requester event */
+// var requesterEvent = EtherATMInstance.RequesterInfo();
+// requesterEvent.watch(function(error, result){
+//     if (!error) {
+//     	$("#req_info").html(result.args.r_name + ' (' + result.args.r_account);
+//     } else {
+//     	console.log(error);
+//     }
+// });
 
-/* Watching the requester even */
-var requesterEvent = EtherATMInstance.RequesterInfo();
-requesterEvent.watch(function(error, result){
-    if (!error) {
-    	$("#req_info").html(result.args.r_name + ' (' + result.args.r_account);
-    } else {
-    	console.log(error);
-    }
-});
+// function createRequester() {
+// 	var userName = document.getElementById('user').value;
+// 	EtherATMInstance.newRequester(userName, function(error, result){
+// 	// EtherATMInstance.newRequester($("#user").val(), function(error, result){
+// 		if(!error) {
+// 			console.log(error);
+// 		} else {
+// 			console.log(result);
+// 		}
+// 	});
+// }
 
-/* Requester sends out a request */
-function createRequester() {
-	var userName = document.getElementById('user').value;
-	EtherATMInstance.newRequester(userName, function(error, result){
-	// EtherATMInstance.newRequester($("#user").val(), function(error, result){
-		if(!error) {
-			console.log(error);
-		} else {
-			console.log(result);
-		}
-	});
-}
 
-var createRequestEvent = EtherATMInstance.RequestCreated();
-createRequestEvent.watch(function(error, result){
-    if (!error) {
-    	$("#reqs").html('Successfully: ' + '(' + result.args.r_name + ' requests $' + result.args.r_usd + ' )');
-    } else {
-    	console.log(error);
-    }
-});
-
-// string _name, uint _usd, uint _eth, uint _created_at
 function createRequest() {
 	var userName = document.getElementById('user').value;
 	var usd_in = document.getElementById('usd').value;
 	var eth_in = document.getElementById('eth').value;
 	var wei_in = web3.toWei(eth_in, 'ether');
 	// console.log(eth_in);
-	var time_stamp = Math.floor(Date.now() / 1000);
-	if (true) {
-		EtherATMInstance.newRequest(userName, usd_in, wei_in, time_stamp, function(error, result){
-			if(!error) {
-				console.log(error);
-				$("#reqs").html('Successfully, your request is send out');
-			} else {
-				console.log(result);
-			}
-		});
-	} else {
-		// aMsg.innerHTML= '<span style="color:red">请输入5--10个字符！</span>';
-	}
+	// var time_stamp = Math.floor(Date.now() / 1000);
+
+	EtherATMInstance.newRequest(userName, usd_in, wei_in, function(error, result){
+		if(!error) {
+			console.log(error);
+			$("#reqs").html('Your request is successfully send out!');
+		} else {
+			console.log(result);
+		}
+	});
+
+	document.getElementById("user").value = "";
+    document.getElementById("usd").value = "";
+    document.getElementById("eth").value = "";
 }
 
-/* Create options to filter out the accepted accepts which are send from a specific user(address)*/
+/* Requester is always waiting for notification of who acceptes the cash request */
 var requestAcceptedEvent = EtherATMInstance.RequestAccepted();
-// var acceptedRequestOptions = {
-// 	'fromBlock': 0,
-// 	'toBlock': 'latest',
-// 	'address': contractAddress,
-// 	'topics':[]
-// };
-// var acceptedRequestFilter = web3.eth.filter(acceptedRequestOptions);
-// acceptedRequestFilter.get(function(error, result) {
-// 	if(!error) {
-
-// 	} else {
-// 		console.log("error");
-// 	}
-// });
+requestAcceptedEvent.watch(function(error, result){
+    if (!error) {
+    	if (result.args.requester == web3.eth.defaultAccount) {
+    		$("#accepter_info").html('Your request is accepted by ' + result.args.giver);	
+    	}
+    } else {
+    	console.log(error);
+    }
+});
 
 /*Using API to obtain real-time exchange rate*/
 function getExchangeRate() {
@@ -331,7 +266,7 @@ function getExchangeRate() {
 	return rate;
 }
 
-/* Converter: from usd to ether with real-time exchange rate */
+/* Converter: from usd to ether with exchange rate */
 function usdToEtherConverter() {
 	var ether_value;
 	var rate = getExchangeRate();
@@ -339,7 +274,8 @@ function usdToEtherConverter() {
 	document.getElementById('eth').value = ether_value.toFixed(8);
 }
 
-/* Make verification: if the ether balance is enough to pay for the amount of dollars entered by user*/
+/**TO DO**/
+/* Make verification: wheather the ether balance is enough to pay for the amount of dollars entered by user or not*/
 function verifyEtherAmount() {
 	// var balance = web3.toWei(displayBalance(), 'ether');
 	// var ethAmount = document.getElementById('eth');
@@ -351,11 +287,12 @@ function verifyEtherAmount() {
 	// }
 }
 
-/* Requester pay ether to giver */
+/* Requester confirms and pay ether to giver */
 function sendPayment() {
+	// EtherATMInstance.confirmReceived();
 	var accounts = web3.eth.accounts;
 	var to_address = document.getElementById('pay_to').value;
-	var val_eth = document.getElementById('eth').value;
+	var val_eth = document.getElementById('eth_amount').value;
 	var val_wei = web3.toWei(val_eth, 'ether');
 
 	web3.eth.sendTransaction({
@@ -378,18 +315,31 @@ Part 3:
 All functions and variables used only for giver are defined in this part
 **/
 
-var requestCreatedEvent = EtherATMInstance.RequestAccepted();
-var allRequestsOptions = {
-	'fromBlock': 0,
-	'toBlock': 'latest',
-	'address': contractAddress,
-	'topics':[]
-};
-var allRequestFilter = web3.eth.filter(allRequestsOptions);
-requestCreatedEvent.get(function(error, result) {
-	if(!error) {
-
-	} else {
-		console.log("error");
-	}
+/* Cash giver is always wait for new request from requester */
+var requestCreatedEvent = EtherATMInstance.RequestCreated();
+requestCreatedEvent.watch(function(error, result){
+    if (!error) {
+    	var eth = web3.fromWei(result.args.r_wei, 'ether');
+    	$("#new_req_info").html(result.args.r_name + ' requests $' + result.args.r_usd + ' with ' + eth + 'ethers!');
+    } else {
+    	console.log(error);
+    }
 });
+
+function acceptRequest() {	
+	EtherATMInstance.acceptRequest(function(error, result){
+		if(!error) {
+			$("#win_msg").html('You are the winner!');
+		} else {
+			console.log(error);
+		}
+	});
+}
+
+// function startWatchEvent() {
+
+// }
+
+// function stopWatchEvent() {
+	
+// }

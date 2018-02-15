@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="mystyle.css">
 	<script type="text/javascript" src="./scripts/js-scripts.js"></script>
 	<script type="text/javascript" src="./node_modules/web3/dist/web3.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 </head>
 <body onload="displayAccountInfo()">
 	<div align="center">
@@ -34,19 +35,22 @@
 	<!-- Requester's Name       CashAmount       EtherAmount -->
 	<fieldset>
 		<div align="center">
-			<h4>New Cash Request: </h4>
-			
+			<h4 align="center">New Request: </h4>
+			<h5 id="new_req_info"></h5>
+		</div>
+
+		<div align="center">
+			<input type="button" name="name" id="accept" value="Accept" onclick="acceptRequest()">	
+		</div>	
+
+		<div align="center">
+			<h5 id="win_msg"></h5>
 		</div>
 	</fieldset> <br>
 
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
 	<script type="text/javascript">
-		// if (typeof web3 !== 'undefined') {
-		// 	web3 = new Web3(web3.currentProvider);
-		// 	// console.log("Metamask detected");
-		// } else {
-		// 	// console.log("Metamask not detected");
-		// 	web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-		// }
+
 	</script>
 
 </body>

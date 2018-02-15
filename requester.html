@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="mystyle.css">
 	<script type="text/javascript" src="./scripts/js-scripts.js"></script>
 	<script type="text/javascript" src="./node_modules/web3/dist/web3.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	
 </head>
 
@@ -54,11 +55,6 @@
 			<br>
 
 			<div align="center">
-				<a type="text" name="name" id="msg“>
-			</div>
-			<br>
-
-			<div align="center">
 				<label>ETH: </label>
 				<input type="text" name="name" id="eth" placeholder="ETH" readonly onkeyup="usdToEtherConverter()">
 			</div>
@@ -74,24 +70,11 @@
 		</div>	
 	</fieldset><br>
 
-<!-- 	<fieldset>
-		<div align="center">
-			<h4 align="center">Requester Info: </h4>
-			<h5 id="req_info"></h5>
-		</div>
-		
-	</fieldset> <br> -->
-
-	<fieldset>
-		
-		
-	</fieldset> <br>
-
-	<!-- message from giver -->
+	<!-- Request accepted message -->
 	<fieldset>
 		<div align="center">
 			<h4>Your request is accepted by: </h4>
-			<h5 id="accepter"></h5>
+			<h5 id="accepter_info"></h5>
 		</div>
 		
 	</fieldset><br>
@@ -101,21 +84,22 @@
 		<div align="center">
 			<label>Pay To: </label>
 			<input type="text" name="payment" id="pay_to">
-			<input type="button" name="button" id="payment" value="Send">
-			<h6 id="response"></h6>
+		</div>
+
+		<div align="center">
+			<label>Eth: </label>
+			<input type="text" name="payment" id="eth_amount">
+		</div>
+
+		<div align="center">
+			<input type="button" name="button" id="payment" value="Send" onclick="sendPayment()">
 		</div>
 		
 	</fieldset>	
 	
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
 	<script type="text/javascript">
-		// if (typeof web3 !== 'undefined') {
-		// 	web3 = new Web3(web3.currentProvider);
-		// 	// console.log("Metamask detected");
-		// } else {
-		// 	// console.log("Metamask not detected");
-		// 	web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
-		// }
+
 	</script>
 </body>
 </html>
