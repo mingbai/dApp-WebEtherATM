@@ -46,6 +46,7 @@ function displayBalance() {
 	return balance;
 }
 
+
 var contractABI = [
 	{
 		"constant": true,
@@ -140,7 +141,7 @@ var contractABI = [
 	{
 		"constant": false,
 		"inputs": [],
-		"name": "confirmReceived",
+		"name": "confirmCashReceived",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -190,7 +191,8 @@ var contractABI = [
 	}
 ];
 var EtherATMContract = web3.eth.contract(contractABI);
-var contractAddress = '0x1e747df75ee456625e9d5670abe0f1cad91cbec1';
+var contractAddress = '0xc023a3a75fa6da4b3b4aab3b3e8a24c6a4133df2';
+// var contractAddress = '0x1e747df75ee456625e9d5670abe0f1cad91cbec1';
 var EtherATMInstance = EtherATMContract.at(contractAddress);
 
 /**
@@ -255,6 +257,7 @@ requestAcceptedEvent.watch(function(error, result){
     }
 });
 
+
 /*Using API to obtain real-time exchange rate*/
 function getExchangeRate() {
 	var xhttp = new XMLHttpRequest();
@@ -277,19 +280,12 @@ function usdToEtherConverter() {
 /**TO DO**/
 /* Make verification: wheather the ether balance is enough to pay for the amount of dollars entered by user or not*/
 function verifyEtherAmount() {
-	// var balance = web3.toWei(displayBalance(), 'ether');
-	// var ethAmount = document.getElementById('eth');
-	// var weiAmount = web3.toWei(ethAmount, 'ether');
-	// if (balance < weiAmount) {
-	// 	return false;
-	// } else {
-	// 	return true;
-	// }
+
 }
 
 /* Requester confirms and pay ether to giver */
 function sendPayment() {
-	// EtherATMInstance.confirmReceived();
+	EtherATMInstance.confirmCashReceived();
 	var accounts = web3.eth.accounts;
 	var to_address = document.getElementById('pay_to').value;
 	var val_eth = document.getElementById('eth_amount').value;
